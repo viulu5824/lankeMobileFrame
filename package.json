@@ -1,5 +1,5 @@
 {
-  "name": "lanke-template-h5",
+  "name": "lanke-mobile-frame",
   "version": "1.0.2",
   "description": "",
   "main": "index.js",
@@ -8,6 +8,7 @@
     "dev": "set NODE_ENV=development&webpack serve --config ./build/webpack.dev.conf.js",
     "build-test": "set NODE_ENV=test&webpack --config ./build/webpack.prod.conf.js",
     "build": "set NODE_ENV=production&webpack --config ./build/webpack.prod.conf.js",
+    "build-analyze": "set NODE_ENV=production&webpack --config ./build/webpack.prod.conf.js --progress",
     "rm-nm": "rimraf node_modules",
     "i": "npm i"
   },

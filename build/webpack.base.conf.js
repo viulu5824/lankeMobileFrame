@@ -30,6 +30,10 @@ let baseConfig = {
                 to: './static'
             }]
         }),
+        new BundleAnalyzerPlugin({
+            analyzerPort: 6688,
+            sta
+        })
         // new ModuleFederationPlugin({
         //     name:"main",
         //     shared:["vue","vue-router","vant","vuex","axios","lodash"],
@@ -67,7 +71,10 @@ let baseConfig = {
             {
                 test: /\.js$/,
                 use: {
-                    loader: 'babel-loader'
+                    loader: 'babel-loader',
+                    options:{
+                        cacheDirectory:true
+                    }
                 },
                 exclude: /(node_modules|bower_components)/,
                 include: /(src|static)/
@@ -90,16 +97,17 @@ let baseConfig = {
             "_c": path.resolve(__dirname, "../src/components"),
             "static": path.resolve(__dirname, "../src/static"),
             webworkify: 'webworkify-webpack-dropin'
-        }
+        },
+        extensions:[".js",".jsx",".json"]
     },
     target: "web"
 }
-if (JSON.parse(process.env.npm_config_argv).cooked[2] === "--analyze") {
-    var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-    baseConfig.plugins.push(new BundleAnalyzerPlugin({
-        analyzerPort: 6688
-    }));
-}
+// if (JSON.parse(process.env.npm_config_argv).cooked[2] === "--analyze") {
+//     var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+//     baseConfig.plugins.push(new BundleAnalyzerPlugin({
+//         analyzerPort: 6688
+//     }));
+// }
 if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "test") {
     baseConfig.plugins.push(new CleanWebpackPlugin.CleanWebpackPlugin());
 }

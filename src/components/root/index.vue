@@ -1,14 +1,7 @@
 <template>
   <section class="main-container">
-    <transition
-      mode="out-in"
-      :appear="true"
-      name="fadeInRight"
-      enter-active-class="fadeInRight"
-      leave-active-class="fadeOutRight"
-    >
-      <router-view class="main-view animated"></router-view>
-    </transition>
+    
+    <router-view class="main-view"></router-view>
   </section>
 </template>
 
@@ -22,8 +15,25 @@ export default {
     return {};
   },
   methods: {
-    //获取用户信息
-    getUserData() {},
+    //示例接口
+    getWeatherData() {
+      this.$request({
+        url: "https://free-api.heweather.net/s6/weather/now",
+        withoutErrorMsg: true,
+        params: {
+          location: "北京",
+          key: "8032a97d671146a5ac8732c5b6cd070e",
+        },
+        hasGlobalLoading: true,
+      }).then(
+        (res) => {
+          console.log(res);
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    },
   },
   components: {},
   computed: {
@@ -31,9 +41,8 @@ export default {
     ...mapGetters([]),
   },
   created() {
-    this.getUserData();
+    this.getWeatherData();
   },
-  beforeDestroy() {},
 };
 </script>
 <style lang="less" scoped>

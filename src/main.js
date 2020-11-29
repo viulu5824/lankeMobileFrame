@@ -1,4 +1,3 @@
-
 //rem适配区间 viewport :[320,768]
 window.addEventListener("DOMContentLoaded", () => {
     const docEl = document.documentElement;
@@ -17,8 +16,7 @@ import "./else/mount";
 import "./else/request";
 import "./function/filter";
 
-//ElementUI Router Vuex
-import "./else/vant-ui";
+// Router Vuex
 import router from "./else/router";
 import store from "./store/index";
 
@@ -28,8 +26,6 @@ import "./less/main/reset.less";
 import "./less/main/common.less";
 import "./less/main/main.less";
 import "./less/else/else-reset.less";
-//Amap
-
 
 //RootComponent 
 import app from "./components/app.vue";

@@ -69,6 +69,7 @@ module.exports = merge(baseConfig, {
                 }
             }
         },
+        minimize:true,
         minimizer: [
             new TerserPlugin({
                 parallel: true,//多进程提高构建速度

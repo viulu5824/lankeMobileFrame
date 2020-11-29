@@ -1,4 +1,4 @@
-# 移动端通用开发模板（vue+vantui）
+# 移动端通用开发框架（vue+vantui）
 
 ## 待解决问题
 
@@ -9,13 +9,18 @@
 ## 项目核心技术栈
 
 - 基础框架
-vue2+vueRouter+vuex->spa基础框架
-webpack5->打包构建工具
-babel7->js编译转码工具
+spa基础框架:vue2|vueRouter|vuex
+打包构建工具:webpack5
+js编译转码工具:babel7
+
 - ui框架
 [vant-ui](https://vant-contrib.gitee.io/vant/#/zh-CN/home)按需引入
+
 - 移动端适配方案
-vw+rem
+   + 默认750px设计稿
+   + DOM根元素fontSize设置为10vw
+   + 应用postcss-pxtorem基准值设置为37.5
+   
 - 三方依赖
   1. [qs](https://storm4542.github.io/archives/7b89c88d.html)->queryString转换
   2. [axios](http://www.axios-js.com/zh-cn/docs/)->请求库
