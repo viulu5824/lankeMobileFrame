@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "live-server ./dist --port=12345",
-    "dev": "set NODE_ENV=development&webpack serve --config ./build/webpack.dev.conf.js",
-    "build-test": "set NODE_ENV=test&webpack --config ./build/webpack.prod.conf.js",
-    "build": "set NODE_ENV=production&webpack --config ./build/webpack.prod.conf.js",
-    "build-analyze": "set NODE_ENV=production&webpack --config ./build/webpack.prod.conf.js --progress",
+    "dev": "cross-env NODE_ENV=development&webpack serve --config ./build/webpack.dev.conf.js",
+    "build": "cross-env NODE_ENV=production&webpack --config ./build/webpack.prod.conf.js",
+    "build-test": "cross-env NODE_ENV=test&webpack --config ./build/webpack.prod.conf.js",
+    "analyze": "webpack-bundle-analyzer ./dist/stats.json --port 6688",
     "rm-nm": "rimraf node_modules",
     "i": "npm i"
   },
@@ -54,8 +54,9 @@
     "@babel/runtime": "^7.12.5",
     "animate.css": "^4.1.1",
     "axios": "^0.21.0",
-    "echarts": "^4.9.0",
-    "gsap": "^3.5.1",
+
+
+    
     "lodash": "^4.17.20",
     "qs": "^6.9.4",
     "vant": "^2.11.0",

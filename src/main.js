@@ -12,20 +12,19 @@ window.addEventListener("DOMContentLoaded", () => {
 import Vue from "vue";
 
 //Scripts
-import "./else/mount";
-import "./else/request";
-import "./function/filter";
+import "./config/mount";
+import "./util/request";
+import "./util/filter";
 
 // Router Vuex
-import router from "./else/router";
+import router from "./config/router";
 import store from "./store/index";
 
 //Style
-import "./less/main/base.less";
-import "./less/main/reset.less";
-import "./less/main/common.less";
-import "./less/main/main.less";
-import "./less/else/else-reset.less";
+import "./style/main/reset.less";
+import "./style/main/common.less";
+import "./style/main/main.less";
+import "./style/main/else-reset.less";
 
 //RootComponent 
 import app from "./components/app.vue";

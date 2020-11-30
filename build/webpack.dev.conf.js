@@ -20,16 +20,17 @@ module.exports = merge(baseConfig, {
                     options: {
                         lessOptions: {
                             modifyVars: {
-                                hack: `true; @import "${path.join(__dirname, "../src/less/variable/vant-reset-variable.less")}";`,
+                                hack: `true; @import "${path.join(__dirname, "../src/style/variable/vant-reset-variable.less")}";`,
                             }
                         }
                     }
-                }, {
-                        loader: 'style-resources-loader',
-                        options: {
-                            patterns: path.join(__dirname, "../src/less/variable/variable.less"),
-                        },
-                    },]
+                },
+                {
+                    loader: 'style-resources-loader',
+                    options: {
+                        patterns: path.join(__dirname, "../src/style/variable/variable.less"),
+                    },
+                }]
             },
         ]
     },
@@ -48,14 +49,8 @@ module.exports = merge(baseConfig, {
         historyApiFallback: true,
         proxy: {
             '/api': {
-                target: 'http://47.52.234.122:8088',
-                target: 'http://47.94.213.169:8083',
+                target: '',
                 pathRewrite: { '^/api': '' }
-            },
-            '/fileApi': {
-                target: 'http://47.52.234.122:8088',
-                target: 'http://47.94.213.169:8083',
-                pathRewrite: { '^/fileApi': '' }
             },
         }
     }

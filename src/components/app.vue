@@ -11,9 +11,6 @@ export default {
   },
   methods: {
   },
-  computed: {
-    ...mapState(["userData"]),
-  },
   created() {
   },
 };

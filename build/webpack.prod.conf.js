@@ -5,7 +5,6 @@ const baseConfig = require("./webpack.base.conf");
 const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 module.exports = merge(baseConfig, {
     output: {
@@ -38,10 +37,11 @@ module.exports = merge(baseConfig, {
                     options: {
                         publicPath: "../"
                     }
-                }, "css-loader", "postcss-loader", "less-loader", {
+                }, "css-loader", "postcss-loader", "less-loader",
+                {
                     loader: 'style-resources-loader',
                     options: {
-                        patterns: path.join(__dirname, "../src/less/variable.less"),
+                        patterns: path.join(__dirname, "../src/style/variable/variable.less"),
                     },
                 }]
             },
@@ -69,7 +69,7 @@ module.exports = merge(baseConfig, {
                 }
             }
         },
-        minimize:true,
+        minimize: true,
         minimizer: [
             new TerserPlugin({
                 parallel: true,//多进程提高构建速度

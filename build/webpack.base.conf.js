@@ -4,7 +4,7 @@ const htmlWebpackPlugin = require("html-webpack-plugin");
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const copyWebpackPlugin = require('copy-webpack-plugin');
 const CleanWebpackPlugin = require("clean-webpack-plugin");
-const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin")
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 let baseConfig = {
     entry: {
         main: [
@@ -30,18 +30,11 @@ let baseConfig = {
                 to: './static'
             }]
         }),
+
         new BundleAnalyzerPlugin({
-            analyzerPort: 6688,
-            sta
+            analyzerMode:"json",
+            generateStatsFile:true
         })
-        // new ModuleFederationPlugin({
-        //     name:"main",
-        //     shared:["vue","vue-router","vant","vuex","axios","lodash"],
-        //     filename:"lg.js",
-        //     exposes:{
-        //         login:path.join(__dirname,"../src/components/root/login.vue")
-        //     }
-        // })
     ],
     module: {
         // noParse://,
@@ -72,8 +65,8 @@ let baseConfig = {
                 test: /\.js$/,
                 use: {
                     loader: 'babel-loader',
-                    options:{
-                        cacheDirectory:true
+                    options: {
+                        cacheDirectory: true
                     }
                 },
                 exclude: /(node_modules|bower_components)/,
@@ -98,16 +91,10 @@ let baseConfig = {
             "static": path.resolve(__dirname, "../src/static"),
             webworkify: 'webworkify-webpack-dropin'
         },
-        extensions:[".js",".jsx",".json"]
+        extensions: [".js", ".jsx", ".json"]
     },
     target: "web"
 }
-// if (JSON.parse(process.env.npm_config_argv).cooked[2] === "--analyze") {
-//     var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-//     baseConfig.plugins.push(new BundleAnalyzerPlugin({
-//         analyzerPort: 6688
-//     }));
-// }
 if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "test") {
     baseConfig.plugins.push(new CleanWebpackPlugin.CleanWebpackPlugin());
 }
