@@ -12,7 +12,6 @@
 
 <script>
 import Vue from "vue";
-import _ from "lodash";
 import { mapState, mapGetters } from "vuex";
 
 export default {

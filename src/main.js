@@ -14,7 +14,8 @@ import Vue from "vue";
 //Scripts
 import "./config/mount";
 import "./util/request";
-import "./util/filter";
+import "./filter/index";
+import "./directive/index";
 
 // Router Vuex
 import router from "./config/router";
@@ -26,8 +27,13 @@ import "./style/main/common.less";
 import "./style/main/main.less";
 import "./style/main/else-reset.less";
 
+//else
+if (process.env.NODE_ENV === "test") {
+    Vue.use(new require("vconsole")())
+}
+
 //RootComponent 
-import app from "./components/app.vue";
+import app from "_c/app.vue";
 new Vue({
     render(c) {
         return c(app);

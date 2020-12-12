@@ -1,5 +1,6 @@
 .DS_Store
 node_modules
+console
 /dist
 /dev
 /tests/e2e/videos/

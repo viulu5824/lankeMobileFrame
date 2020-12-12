@@ -2,11 +2,12 @@ const path = require('path');
 const webpack = require("webpack");
 const { merge } = require("webpack-merge");
 const baseConfig = require("./webpack.base.conf");
+const env = process.env.NODE_ENV;
 module.exports = merge(baseConfig, {
     plugins: [
         new webpack.DefinePlugin({
             "process.env": {
-                NODE_ENV: JSON.stringify('development')
+                NODE_ENV: JSON.stringify(env)
             }
         }),
         new webpack.ProgressPlugin({ percentBy: 'entries' })
@@ -25,12 +26,12 @@ module.exports = merge(baseConfig, {
                         }
                     }
                 },
-                {
-                    loader: 'style-resources-loader',
-                    options: {
-                        patterns: path.join(__dirname, "../src/style/variable/variable.less"),
-                    },
-                }]
+                    {
+                        loader: 'style-resources-loader',
+                        options: {
+                            patterns: path.join(__dirname, "../src/style/variable/variable.less"),
+                        },
+                    }]
             },
         ]
     },
@@ -40,7 +41,7 @@ module.exports = merge(baseConfig, {
         open: true,
         hot: true,
         // hotOnly: true,
-        port: 5866,
+        port: 5241,
         contentBase: "/",
         compress: true,
         host: "0.0.0.0",//外网访问

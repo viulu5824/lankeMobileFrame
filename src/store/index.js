@@ -1,14 +1,14 @@
 //Vuex配置文件
 import Vue from 'vue';
 import Vuex from "vuex";
-import _ from "lodash";
+import { cloneDeep } from "lodash-es";
 
 //全局静态数据
 import staticData from "./static";
 
 //全局动态数据
 import dynamicData from "./dynamic";
-const dynamicDataCopy = _.cloneDeep(dynamicData);
+const dynamicDataCopy = cloneDeep(dynamicData);
 
 Vue.use(Vuex);
 export default new Vuex.Store({

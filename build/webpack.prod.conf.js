@@ -6,10 +6,12 @@ const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
+const env = process.env.NODE_ENV;
 module.exports = merge(baseConfig, {
     output: {
         path: path.join(__dirname, '../dist'),
-        filename: "js/[name].[contenthash:8].js",
+        filename: "js/[name].[chunkhash:8].js",
+        publicPath: '/'
     },
     plugins: [
         new MiniCssExtractPlugin({
@@ -17,10 +19,9 @@ module.exports = merge(baseConfig, {
         }),
         new webpack.DefinePlugin({
             "process.env": {
-                NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+                NODE_ENV: JSON.stringify(env)
             }
         }),
-        // new LodashModuleReplacementPlugin(),
         new CompressionWebpackPlugin({
             algorithm: 'gzip',
             test: new RegExp('\\.(js|css)$'),
@@ -72,11 +73,10 @@ module.exports = merge(baseConfig, {
         minimize: true,
         minimizer: [
             new TerserPlugin({
-                parallel: true,//多进程提高构建速度
                 extractComments: false,//去除注释
                 terserOptions: {
                     compress: {
-                        drop_console: false
+                        drop_console: env === "production"
                     },
                     format: {
                         comments: false

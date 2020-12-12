@@ -12,17 +12,26 @@ const createRouter = () => new VueRouter({
     {
       path: "/",
       name: "",
+      meta:{
+        title:"首页",
+      },
       component: () => import( /* webpackChunkName: "index" */ "_c/main/index.vue"),
 
     },
     {
       path: "/login",
       name: "login",
+      meta:{
+        title:"登录",
+      },
       component: () => import( /* webpackChunkName: "login" */ "_c/main/login.vue"),
     },
     {
       path: "/*",
       name: "404",
+      meta:{
+        title:"404",
+      },
       component: () => import( /* webpackChunkName: "404" */ "_c/error/404.vue"),
     }
   ],
@@ -36,6 +45,9 @@ const router = createRouter();
 //全局路由钩子
 router.beforeEach((to, from, next) => {
   console.log("from=====>", from, "\n", "to=====>", to);
+  if (to.meta.title) {
+    document.title = to.meta.title
+  }
   return next();
 });
 

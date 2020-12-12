@@ -1,5 +1,5 @@
 const path = require('path');
-const webpack = require("webpack");
+const env = process.env.NODE_ENV;
 const htmlWebpackPlugin = require("html-webpack-plugin");
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const copyWebpackPlugin = require('copy-webpack-plugin');
@@ -30,10 +30,10 @@ let baseConfig = {
                 to: './static'
             }]
         }),
-
         new BundleAnalyzerPlugin({
-            analyzerMode:"json",
-            generateStatsFile:true
+            analyzerMode: "disabled",
+            generateStatsFile: true,
+            statsFilename: path.join(__dirname, "../console/stats.json")
         })
     ],
     module: {
@@ -88,14 +88,14 @@ let baseConfig = {
         alias: {
             "@": path.resolve(__dirname, "..src"),
             "_c": path.resolve(__dirname, "../src/components"),
+            "image": path.resolve(__dirname, "../src/image"),
             "static": path.resolve(__dirname, "../src/static"),
-            webworkify: 'webworkify-webpack-dropin'
         },
         extensions: [".js", ".jsx", ".json"]
     },
     target: "web"
 }
-if (process.env.NODE_ENV === "production" || process.env.NODE_ENV === "test") {
+if (env === "production" || env === "test") {
     baseConfig.plugins.push(new CleanWebpackPlugin.CleanWebpackPlugin());
 }
 module.exports = baseConfig;
