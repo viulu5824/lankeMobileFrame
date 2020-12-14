@@ -7,7 +7,8 @@
     "start": "live-server ./dist --port=12345",
     "dev": "cross-env NODE_ENV=development webpack serve --config ./build/webpack.dev.conf.js",
     "build": "cross-env NODE_ENV=production webpack --config ./build/webpack.prod.conf.js",
-    "build-test": "cross-env NODE_ENV=test webpack --config ./build/webpack.prod.conf.js",
+    "build-test": "cross-env NODE_ENV=test webpack --config ./build/webpack.dev.conf.js",
+    "test": "cross-env NODE_ENV=test webpack --config ./build/webpack.prod.conf.js",
     "analyze": "webpack-bundle-analyzer ./console/stats.json --port 6688",
     "rm-nm": "rimraf node_modules",
     "i": "npm i"

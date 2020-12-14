@@ -9,6 +9,7 @@ let baseConfig = {
     entry: {
         main: [
             path.join(__dirname, '../src/main.js'),
+            "@babel/polyfill"
         ]
     },
     output: {
@@ -93,7 +94,7 @@ let baseConfig = {
         },
         extensions: [".js", ".jsx", ".json"]
     },
-    target: "web"
+    target: "browserslist"
 }
 if (env === "production" || env === "test") {
     baseConfig.plugins.push(new CleanWebpackPlugin.CleanWebpackPlugin());

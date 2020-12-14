@@ -29,7 +29,8 @@ import "./style/main/else-reset.less";
 
 //else
 if (process.env.NODE_ENV === "test") {
-    Vue.use(new require("vconsole")())
+    const VConsole = require("vconsole");
+    Vue.use(new VConsole())
 }
 
 //RootComponent 

@@ -3,7 +3,7 @@ module.exports = {
         [
             "@babel/preset-env",
             {
-                "useBuiltIns": "usage",
+                "useBuiltIns": "entry",
                 "corejs": 2,
                 "modules": false
                 // "debug": true
@@ -11,8 +11,6 @@ module.exports = {
         ]
     ],
     "plugins": [
-        "@babel/plugin-transform-runtime",
-        //babel-plugin-import按需引入vant
         ["import", {
             "libraryName": "vant",
             "libraryDirectory": "es",

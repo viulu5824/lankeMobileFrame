@@ -30,7 +30,7 @@ const config = {
             "api": "",
         },
         baseUrl: "/",
-        routerMode: "history",
+        routerMode: "hash",
         openRootUrl: "",
         successCodeArr: [5002, 1053],
         imgUrl: ""
