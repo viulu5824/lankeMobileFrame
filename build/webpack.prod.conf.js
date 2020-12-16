@@ -6,6 +6,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
+const CleanWebpackPlugin = require("clean-webpack-plugin");
 const env = process.env.NODE_ENV;
 module.exports = merge(baseConfig, {
     output: {
@@ -28,26 +29,8 @@ module.exports = merge(baseConfig, {
             threshold: 10240,
             minRatio: 0.8
         }),
+        new CleanWebpackPlugin.CleanWebpackPlugin()
     ],
-    module: {
-        rules: [
-            {
-                test: /\.(le|c)ss$/,
-                use: [{
-                    loader: MiniCssExtractPlugin.loader,
-                    options: {
-                        publicPath: "../"
-                    }
-                }, "css-loader", "postcss-loader", "less-loader",
-                {
-                    loader: 'style-resources-loader',
-                    options: {
-                        patterns: path.join(__dirname, "../src/style/variable/variable.less"),
-                    },
-                }]
-            },
-        ]
-    },
     optimization: {
         splitChunks: {
             chunks: 'all',
@@ -85,7 +68,6 @@ module.exports = merge(baseConfig, {
             }),
             new CssMinimizerPlugin({})
         ],
-        minimize: true,
     },
     mode: "production",
     devtool: false,

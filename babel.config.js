@@ -3,10 +3,13 @@ module.exports = {
         [
             "@babel/preset-env",
             {
-                "useBuiltIns": "entry",
-                "corejs": 2,
-                "modules": false
-                // "debug": true
+                "useBuiltIns": "usage",
+                "corejs": {
+                    "version": 3,
+                    "proposals": true,
+                },
+                "modules": false,
+                "debug": process.env.NODE_ENV != "production",
             }
         ]
     ],
@@ -14,7 +17,7 @@ module.exports = {
         ["import", {
             "libraryName": "vant",
             "libraryDirectory": "es",
-            "style": (name) => `${name}/style/less`
+            "style": true,
         }, "vant"]
     ]
 }

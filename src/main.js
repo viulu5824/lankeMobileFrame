@@ -11,9 +11,8 @@ window.addEventListener("DOMContentLoaded", () => {
 //Vue
 import Vue from "vue";
 
-//Scripts
+//Mount（vue实例挂载公用属性方法）
 import "./config/mount";
-import "./util/request";
 import "./filter/index";
 import "./directive/index";
 
@@ -27,10 +26,12 @@ import "./style/main/common.less";
 import "./style/main/main.less";
 import "./style/main/else-reset.less";
 
-//else
+//Else
 if (process.env.NODE_ENV === "test") {
-    const VConsole = require("vconsole");
-    Vue.use(new VConsole())
+    Promise.resolve().then(() => {
+        const VConsole = require("vconsole");
+        Vue.use(new VConsole())
+    })
 }
 
 //RootComponent 
@@ -41,5 +42,4 @@ new Vue({
     },
     router,
     store,
-
 }).$mount("#app");

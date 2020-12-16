@@ -1,15 +1,16 @@
 const path = require('path');
 const env = process.env.NODE_ENV;
+const webpack = require("webpack");
 const htmlWebpackPlugin = require("html-webpack-plugin");
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const copyWebpackPlugin = require('copy-webpack-plugin');
-const CleanWebpackPlugin = require("clean-webpack-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const isDev = env === "development";
 let baseConfig = {
     entry: {
         main: [
             path.join(__dirname, '../src/main.js'),
-            "@babel/polyfill"
         ]
     },
     output: {
@@ -17,6 +18,7 @@ let baseConfig = {
         filename: "[name].js",
     },
     plugins: [
+        new webpack.ProgressPlugin({ percentBy: 'entries' }),
         new htmlWebpackPlugin({
             template: path.join(__dirname, "../src/index.html"),
             filename: "index.html",
@@ -40,6 +42,30 @@ let baseConfig = {
     module: {
         // noParse://,
         rules: [
+            {
+                test: /\.(le|c)ss$/,
+                use: [isDev ? "style-loader" : {
+                    loader: MiniCssExtractPlugin.loader,
+                    options: {
+                        publicPath: "../"
+                    }
+                }, "css-loader", "postcss-loader", {
+                    loader: "less-loader",
+                    options: {
+                        lessOptions: {
+                            modifyVars: {
+                                hack: `true; @import "${path.join(__dirname, "../src/style/variable/vant-reset-variable.less")}";`,
+                            }
+                        }
+                    }
+                },
+                {
+                    loader: 'style-resources-loader',
+                    options: {
+                        patterns: path.join(__dirname, "../src/style/variable/variable.less"),
+                    },
+                }]
+            },
             {
                 test: /\.(jpg|png|gif|bmp|jpeg)$/,
                 use: [{
@@ -66,12 +92,9 @@ let baseConfig = {
                 test: /\.js$/,
                 use: {
                     loader: 'babel-loader',
-                    options: {
-                        cacheDirectory: true
-                    }
                 },
-                exclude: /(node_modules|bower_components)/,
-                include: /(src|static)/
+                // exclude: /(node_modules|bower_components)/,
+                include: /(src|static|node_modules\/vuex)/
             },
             {
                 test: /\.vue$/,
@@ -95,8 +118,5 @@ let baseConfig = {
         extensions: [".js", ".jsx", ".json"]
     },
     target: "browserslist"
-}
-if (env === "production" || env === "test") {
-    baseConfig.plugins.push(new CleanWebpackPlugin.CleanWebpackPlugin());
 }
 module.exports = baseConfig;

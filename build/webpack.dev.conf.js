@@ -1,5 +1,5 @@
-const path = require('path');
 const webpack = require("webpack");
+const path = require("path");
 const { merge } = require("webpack-merge");
 const baseConfig = require("./webpack.base.conf");
 const env = process.env.NODE_ENV;
@@ -10,31 +10,7 @@ module.exports = merge(baseConfig, {
                 NODE_ENV: JSON.stringify(env)
             }
         }),
-        new webpack.ProgressPlugin({ percentBy: 'entries' })
     ],
-    module: {
-        rules: [
-            {
-                test: /\.(le|c)ss$/,
-                use: ["style-loader", "css-loader", "postcss-loader", {
-                    loader: "less-loader",
-                    options: {
-                        lessOptions: {
-                            modifyVars: {
-                                hack: `true; @import "${path.join(__dirname, "../src/style/variable/vant-reset-variable.less")}";`,
-                            }
-                        }
-                    }
-                },
-                    {
-                        loader: 'style-resources-loader',
-                        options: {
-                            patterns: path.join(__dirname, "../src/style/variable/variable.less"),
-                        },
-                    }]
-            },
-        ]
-    },
     mode: "development",
     devtool: 'cheap-module-source-map',
     devServer: {

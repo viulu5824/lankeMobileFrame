@@ -12,7 +12,7 @@ const dynamicDataCopy = cloneDeep(dynamicData);
 
 Vue.use(Vuex);
 export default new Vuex.Store({
-    strict: process.env.NODE_ENV === 'development',
+    strict:false,
     state: { ...staticData, ...dynamicData },
     getters: {
     },
