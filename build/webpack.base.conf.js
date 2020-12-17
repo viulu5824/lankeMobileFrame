@@ -92,9 +92,13 @@ let baseConfig = {
                 test: /\.js$/,
                 use: {
                     loader: 'babel-loader',
+
+                    options: {
+                        cacheDirectory: true
+                    }
                 },
                 // exclude: /(node_modules|bower_components)/,
-                include: /(src|static|node_modules\/vuex)/
+                include: /(src|static)/
             },
             {
                 test: /\.vue$/,
