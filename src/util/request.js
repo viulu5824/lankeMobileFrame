@@ -111,15 +111,24 @@ axios.interceptors.response.use(res => {
     }
     //判断是否请求成功
     if ((res.data.statusCode === config.successCode) || rootConfig.successCodeArr.some(e => e === res.data.statusCode)) {//5002 1053
-        config.hasSuccessMsg && Vue.prototype.$toast.success({
-            message: res.data.msg || "成功了",
+        config.hasSuccessNotify && Vue.prototype.$notify({
+            type: "success",
+            message: res.data.statusMsg || "成功啦",
+            duration: 1500
+        })
+        config.hasSuccessToast && Vue.prototype.$toast.success({
+            message: res.data.statusMsg || "成功啦",
             duration: 1500
         })
     } else {
         if (!config.withoutErrorMsg) {
             Vue.prototype.$notify({
                 type: "warning",
-                message: res.data.statusMsg || "未知错误",
+                message: res.data.statusMsg || "出错啦",
+                duration: 1500,
+            });
+            Vue.prototype.$toast.fail({
+                message: res.data.statusMsg || "出错啦",
                 duration: 1500,
             });
         }
@@ -137,20 +146,6 @@ axios.interceptors.response.use(res => {
     console.log(err.config);
     cancelPendingRquest("url&data", err.config, "complete");
     requestLoad && requestLoad.clear();
-    //登录失效设置
-    if (err.response && err.response.status === 401) {
-        Vue.prototype.$toast.fail({
-            message: "登录状态失效",
-            duration: 3000
-        })
-        router.push({ name: "login", query: { prev_route: router.currentRoute.name } });
-    } else {
-        err.message && Vue.prototype.$notify({
-            type: "danger",
-            message: err.code === "ECONNABORTED" ? "请求超时" : err.message,
-            duration: 3000
-        })
-    }
     return Promise.reject(err)
 })
 export default axios;
