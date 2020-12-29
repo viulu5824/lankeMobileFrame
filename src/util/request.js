@@ -49,7 +49,18 @@ let cancelPendingRquest = (cancelType, config, type = "cancel") => {
     console.log("剩余pedding请求", pendingRequestArr);
 }
 
-
+/**
+ * 自定义config属性说明
+ * @param {String} serverTypeStr 区分服务器接口地址
+ * @param {Boolean} noToken 是否不需要token
+ * @param {Boolean} noOpenid 是否不需要openid
+ * @param {Boolean} trans2queryStr 是否需要将data转换为queryString
+ * @param {Boolean} hasGlobalLoading 是否需要添加全局加载状态
+ * @param {Boolean} hasSuccessNotify 是否需要添加成功notify
+ * @param {Boolean} hasSuccessToast 是否需要添加成功Toast
+ * @param {Boolean} withoutErrorMsg 是否不需要添加错误提示
+ * @param {String} errorMsgType 错误提示类型 toast|notify
+ */
 //配置请求拦截器
 axios.interceptors.request.use(config => {
     config.params = config.params || {};
@@ -122,15 +133,16 @@ axios.interceptors.response.use(res => {
         })
     } else {
         if (!config.withoutErrorMsg) {
-            Vue.prototype.$notify({
-                type: "warning",
-                message: res.data.statusMsg || "出错啦",
-                duration: 1500,
-            });
-            Vue.prototype.$toast.fail({
-                message: res.data.statusMsg || "出错啦",
-                duration: 1500,
-            });
+            config.errorMsgType === "notify" ?
+                Vue.prototype.$toast.fail({
+                    message: res.data.statusMsg || "出错啦",
+                    duration: 1500,
+                }) :
+                Vue.prototype.$notify({
+                    type: "warning",
+                    message: res.data.statusMsg || "出错啦",
+                    duration: 1500,
+                });
         }
     }
     return res;
