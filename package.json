@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/main.js",
   "scripts": {
-    "start": "live-server ./dist --port=12345",
+    "start": "live-server ./dist --port=12345 --entry-file=index.html --proxy=/wisdomCzPage:http://127.0.0.1:12345/",
     "dev": "cross-env NODE_ENV=development webpack serve --config ./build/webpack.dev.conf.js",
     "prod-build": "cross-env NODE_ENV=production webpack --config ./build/webpack.prod.conf.js",
     "dev-build": "cross-env NODE_ENV=development webpack --config ./build/webpack.dev.conf.js",
