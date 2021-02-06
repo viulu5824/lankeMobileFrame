@@ -12,9 +12,11 @@ module.exports = merge(baseConfig, {
     output: {
         path: path.join(__dirname, '../dist'),
         filename: "js/[name].[chunkhash:8].js",
-        publicPath: '/'
+        publicPath: '/wisdomCzPage/',
+        pathinfo: false,
     },
     plugins: [
+        new CleanWebpackPlugin.CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
             filename: "css/[name].[contenthash:8].css"
         }),
@@ -29,22 +31,32 @@ module.exports = merge(baseConfig, {
             threshold: 10240,
             minRatio: 0.8
         }),
-        new CleanWebpackPlugin.CleanWebpackPlugin()
+
     ],
+    module: {
+        rules: [
+            {
+                test: /\.(jpg|png|gif|bmp|jpeg)$/,
+                use: [{
+                    loader: "url-loader",
+                    options: {
+                        limit: 7631,
+                        name: "[hash:8]-[name].[ext]",
+                        outputPath: "image",
+                        esModule: false
+                    }
+                }]
+            },
+        ]
+    },
     optimization: {
         splitChunks: {
             chunks: 'all',
-            minSize: 50000,
-            minRemainingSize: 10240,
-            maxSize: 1500000,
-            minChunks: 2,
-            maxAsyncRequests: 5,
-            maxInitialRequests: 3,
-            automaticNameDelimiter: '.',
             cacheGroups: {
                 defaultVendors: {
                     test: /[\\/]node_modules[\\/]/,
                     priority: -10,
+                    reuseExistingChunk: true
                 },
                 common: {
                     minChunks: 2,
@@ -57,6 +69,7 @@ module.exports = merge(baseConfig, {
         minimizer: [
             new TerserPlugin({
                 extractComments: false,//去除注释
+                // parallel: true,
                 terserOptions: {
                     compress: {
                         drop_console: env === "production"
@@ -68,7 +81,9 @@ module.exports = merge(baseConfig, {
             }),
             new CssMinimizerPlugin({})
         ],
+        minimize: true,
     },
     mode: "production",
+    // devtool: env === "production" ? false : "eval-cheap-module-source-map",
     devtool: false,
 });

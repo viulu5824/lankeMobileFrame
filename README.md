@@ -1,6 +1,10 @@
-# 移动端通用开发框架（vue+vantui）
+# 移动端通用开发模板（vue+vantui）
 
-## 待解决问题
+## 待解决问题和需求
+
+1. 上传压缩图片，限制大小
+2. 省级联动抽取组件
+3. store/static.js中不能直接require图片，会被打包至入口文件
 
 ## 项目介绍
 
@@ -11,12 +15,12 @@
 ### 基础框架
 
 spa基础框架:vue2|vueRouter|vuex
-打包构建工具:webpack5
-js编译转码工具:babel7
+打包构建工具:webpack5 babel7
 
 ### ui框架
 
 [vant-ui](https://vant-contrib.gitee.io/vant/#/zh-CN/home)按需引入
+[iconfont](https://www.iconfont.cn/)class方式引入
 
 ### 移动端适配方案
 
@@ -32,7 +36,7 @@ js编译转码工具:babel7
     + qs是用来解析和包装查询字符串的三方库
     + 使用方法
 
-    ````javascript
+    ```javascript
         import qs from "qs";
         qs.stringfy({a:1,b:2});//包装
         qs.parse("a=1&b=2");//解析
@@ -42,7 +46,7 @@ js编译转码工具:babel7
 3. [lodash](https://www.lodashjs.com/docs/latest)
 
     + lodash是javascript高效函数库
-    + 项目中引入的是 lodash-es，引用方式采用ESM引用方式，能够应用webpack的tree shaking优化代码体积，按需加载方法
+    + 项目中引入的是lodash-es，引用方式采用ESM引用方式，能够应用webpack的Tree shaking优化代码体积，按需加载方法
     + 使用方法
 
     ```javascript
@@ -62,7 +66,7 @@ js编译转码工具:babel7
 ### 请求
 
 1. 请求使用**axios**三方请求工具
-2. 针对axios进行了二次封装[request.js]((/src/util/request.js))
+2. 针对axios进行了二次封装[request.js]((/src/request/request.js))
 3. vue组件中应用`this.$request(...config)`进行请求
 4. js中引入request.js进行请求或者引入vue，调用`vue.prototype.$request`
 

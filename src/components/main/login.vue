@@ -1,85 +1,118 @@
+<!--隔离点登录组件 -->
 <template>
-  <section class="login-container">
+  <div class="isolation-login">
+    <div class="top-bg">
+      <img :src="require('image/main/login.png')" alt="登录" />
+    </div>
     <van-form
-      class="loginForm"
-      ref="loginForm"
       :show-error="false"
       input-align="right"
-      validate-trigger="onChange"
+      :label-width="150 / 37.5 + 'rem'"
+      validate-trigger="onSubmit"
       error-message-align="right"
-      @submit="loginSubmit"
+      :scroll-to-error="true"
+      @submit="login"
+      class="col-page login-form"
     >
-      <van-field
-        v-model="loginFormModel.mobile"
-        name="idcard"
-        label="手机号"
-        required
-        placeholder="请输入您的手机号码"
-        :rules="[
-          { required: true, message: '请输入您的手机号码' },
-          {
-            pattern: verify.testPhone().regex,
-            message: '请输入正确的手机号码',
-          },
-        ]"
+      <input
+        class="not-autocomplete"
+        type="text"
+        name="username"
+        autocomplete="on"
+      />
+      <input
+        class="not-autocomplete"
+        type="password"
+        name="password"
+        autocomplete="on"
       />
       <van-field
-        v-model="loginFormModel.code"
-        center
-        clearable
-        label="短信验证码"
-        placeholder="请输入短信验证码"
+        autocomplete="off"
+        name="username"
+        v-model="detailForm.username"
+        label="用户名"
+        placeholder="请输入用户名"
+        :rules="[
+          {
+            required: true,
+            message: '请输入用户名',
+          },
+        ]"
+      ></van-field>
+      <van-field
+        name="password"
+        type="password"
+        autocomplete="off"
+        v-model="detailForm.password"
+        label="密码"
+        placeholder="请输入密码"
+        :rules="[
+          {
+            required: true,
+            message: '请输入密码',
+          },
+        ]"
+      ></van-field>
+      <van-button
+        class="mt35"
+        size="large"
+        native-type="submit"
+        type="info"
+        block
+        round
+        >登录</van-button
       >
-        <template #button>
-          <van-button native-type="button" size="small" type="info"
-            >发送验证码</van-button
-          >
-        </template>
-      </van-field>
-      <div style="margin: 16px">
-        <van-button round block size="normal" type="info" native-type="submit">
-          登录
-        </van-button>
-      </div>
     </van-form>
-  </section>
+  </div>
 </template>
+
 <script>
 import Vue from "vue";
-import { Form, Field, Picker, Popup } from "vant";
-Vue.use(Form).use(Field).use(Picker).use(Popup);
+import { mapState } from "vuex";
+import { Form, Field, CellGroup, Radio, RadioGroup } from "vant";
+Vue.use(Form).use(Field).use(CellGroup).use(Radio).use(RadioGroup);
 export default {
   data() {
     return {
-      loginFormModel: {
-        mobile: null,
-        code: null,
+      detailForm: {
+        password: "",
+        username: "",
       },
     };
   },
   methods: {
-    //登录提交表单
-    loginSubmit() {
-      console.log(this.loginFormModel);
-      this.$router.push({ path: "/" });
+    //登录
+    login() {
+      this.$toast.success("登录成功");
+      this.$router.replace({ name: "index" });
     },
+  },
+  computed: {
+    ...mapState(["basicData"]),
   },
   created() {},
 };
 </script>
 <style lang="less" scoped>
-.login-container {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+.isolation-login {
+  background-color: #fff;
 }
-.loginForm {
-  padding: 30px 0 60px;
-  border: 1px solid #dfdfdf;
-  border-radius: 6px;
-  border-width: 2px;
-  width: 88%;
+.top-bg {
+  height: 222px;
+  img {
+    width: 100%;
+    height: auto;
+  }
+}
+.login-form {
+  padding: 40px 15px;
+  .van-cell {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+  .van-cell::after {
+    border-color: #cccccc;
+  }
 }
 </style>

@@ -1,1 +1,3 @@
-//vue自定义指令
+/**
+ * @description vue自定义指令文件
+ */

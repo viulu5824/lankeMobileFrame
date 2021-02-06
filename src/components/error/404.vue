@@ -19,4 +19,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.not-found {
+  margin-top: 150px;
+  p {
+    font-size: 35px;
+    font-weight: bolder;
+  }
+}
 </style>

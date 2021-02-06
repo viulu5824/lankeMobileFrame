@@ -1,4 +1,4 @@
-//rem适配区间 viewport :[320,768]
+//设置rem适配区间 viewport :[320,768]
 window.addEventListener("DOMContentLoaded", () => {
     const docEl = document.documentElement;
     const vw = docEl.clientWidth;
@@ -11,14 +11,15 @@ window.addEventListener("DOMContentLoaded", () => {
 //Vue
 import Vue from "vue";
 
-//Mount（vue实例挂载公用属性方法）
-import "./config/mount";
+//Scripts
+import "mount";
+import "request";
 import "./filter/index";
 import "./directive/index";
 
 // Router Vuex
-import router from "./config/router";
 import store from "./store/index";
+import router from "router";
 
 //Style
 import "./style/main/reset.less";
@@ -30,7 +31,18 @@ import "./style/main/else-reset.less";
 if (process.env.NODE_ENV === "test") {
     Promise.resolve().then(() => {
         const VConsole = require("vconsole");
-        Vue.use(new VConsole())
+        const vc = new VConsole();
+        let first = true;
+        Object.defineProperty(window, "cc", {
+            get() {
+                if (first) {
+                    first = false;
+                } else {
+                    vc.destroy();
+                }
+
+            }
+        })
     })
 }
 
@@ -42,4 +54,5 @@ new Vue({
     },
     router,
     store,
+
 }).$mount("#app");

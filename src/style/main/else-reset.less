@@ -1,0 +1,162 @@
+//三方库重置样式文件
+
+//van-pull-refresh
+.van-pull-refresh {
+    min-height: 100%;
+
+    .van-pull-refresh__track {
+        min-height: calc(100vh - 80px);
+    }
+}
+
+.fixed-bottom.fixed-top {
+    .van-pull-refresh {
+        .van-pull-refresh__track {
+            min-height: calc(100vh - 160px);
+        }
+    }
+}
+
+//van-radio
+.van-radio:not(.van-radio--horizontal) {
+    margin-bottom: 8px;
+    direction: rtl;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.van-form {
+
+    .van-radio--horizontal {
+        margin-right: 0;
+        margin-left: 8px;
+    }
+
+    .van-radio__label {
+        margin-right: 10px;
+    }
+}
+
+
+.van-dialog {
+    max-height: 80%;
+    display: flex;
+    flex-direction: column;
+
+    .van-dialog__header {
+        flex: 0 0 auto;
+        padding: 12px 0;
+    }
+
+    .van-dialog__content {
+        overflow-y: auto;
+        flex: 1 1 auto;
+    }
+
+    .van-dialog__footer {
+        flex: 0 0 auto;
+    }
+}
+
+.van-dialog.title-border {
+    .van-dialog__header {
+        border-bottom: 1px solid @border-color;
+    }
+}
+
+.van-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.van-button {
+    // margin: 0 5px;
+}
+
+.van-button.van-button--disabled {
+    border: 0 none;
+    opacity: 1;
+    background-color: #E5E5E5;
+    color: #999999;
+}
+
+.van-steps {
+    overflow: visible !important;
+}
+
+.van-step--finish {
+    color: @base_color  !important;
+
+    .icon-cricle {
+        border-color: @base_color;
+    }
+}
+
+.van-step--process {
+    color: @base_color  !important;
+
+    .icon-cricle {
+        border-color: @base_color;
+    }
+}
+
+.van-step--horizontal {
+    &:first-child {
+        .van-step__title {
+            transform: translateX(-35%) !important;
+        }
+    }
+
+    &:last-child {
+        .van-step__title {
+            transform: translateX(35%) !important;
+        }
+    }
+}
+
+.van-step__title {
+    font-weight: bold !important;
+}
+
+.van-button--small {
+    padding: 0 15px;
+    height: 28px;
+}
+//tabs
+.van-tabs--line .van-tabs__wrap{
+    height: 40px !important;
+}
+.van-tabs.full-page {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    /deep/ .van-tabs__content {
+        flex: 1 1 auto;
+        height: 0;
+
+        .van-tab__pane {
+            height: 100%;
+            overflow: auto;
+        }
+    }
+}
+
+.van-search__action:active {
+    background-color: transparent !important;
+}
+
+.wrap-line .van-field__control--custom {
+    display: block;
+}
+
+.amap-logo {
+    display: none !important;
+}
+
+.amap-copyright {
+    display: none !important;
+}

@@ -2,10 +2,14 @@
 html {
   font-size: 10vw;
 }
-body{
-  font-size:16px;
+
+body {
+  font-size: 14px;
+  color: #333333;
   position: relative;
+  overflow-x: hidden
 }
+
 body,
 html {
   width: 100%;
@@ -14,16 +18,122 @@ html {
 }
 
 //主要父元素
-.root-container{
-  height:100% ;
+.root-container {
+  height: 100%;
   margin: 0 auto;
   max-width: 1080px;
 }
+
 .main-container {
   width: 100%;
+  height: 100%;
+}
+
+.view-container {
+  min-height: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: @bg_color_main;
+}
+
+.view-container.scroll-container {
+  height: auto;
+}
+
+//主要公用样式
+.key-val-list {
+  li {
+    line-height: 1.3;
+    white-space: nowrap;
+    margin-bottom: 12px;
+
+    &:last-of-type {
+      margin-bottom: 0 !important;
+    }
+  }
+
+  .key,
+  .val {
+    display: inline-block;
+    vertical-align: top;
+    overflow: hidden;
+  }
+
+  .key {
+    // font-weight: 600;
+    color: #666;
+  }
+
+  .val {
+    margin-left: 8px;
+    white-space: normal;
+    word-break: break-all;
+  }
+}
+
+.key-val-list.col-6 {
+  display: flex;
+  flex-wrap: wrap;
+
+  li {
+    width: 50%;
+  }
+}
+
+.key-val-list.aligin-middle {
+
+  .key,
+  .val {
+    vertical-align: middle;
+  }
+}
+
+.key-val-list.space-between {
+  li {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    .val {
+      text-align: right;
+    }
+  }
+}
+
+.list-page {
+  .list-block {
+    padding: 0 15px;
+  }
+
+  .top-block {
+    padding: 15px;
+  }
+}
+
+.col-page {
   height: 100%;
   display: flex;
   flex-direction: column;
 }
 
-//主要公用样式
+.scroll-block {
+  min-height: 0;
+  flex: 1 1 auto;
+  position: relative;
+  overflow-y: auto;
+}
+
+.bottom-btn {
+  width: 100%;
+  padding: 15px 15px 0;
+  flex: 0 0 80px;
+
+  button {
+    font-weight: bold !important;
+  }
+}
+
+.bottom-btn.bgf {
+  background-color: #fff;
+}
