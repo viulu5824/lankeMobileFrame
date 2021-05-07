@@ -23,6 +23,7 @@
  * 
  * @export {Object} 对应环境的核心配置导出
  */
+console.log(process);
 const config = {
     //开发环境
     development: {

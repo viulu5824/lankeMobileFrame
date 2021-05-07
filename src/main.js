@@ -1,3 +1,5 @@
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 //设置rem适配区间 viewport :[320,768]
 window.addEventListener("DOMContentLoaded", () => {
     const docEl = document.documentElement;

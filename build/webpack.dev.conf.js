@@ -3,13 +3,17 @@ const webpack = require("webpack");
 const { merge } = require("webpack-merge");
 const baseConfig = require("./webpack.base.conf");
 const env = process.env.NODE_ENV;
+console.log(env);
 module.exports = merge(baseConfig, {
+    output: {
+        publicPath: './',
+    },
     plugins: [
-        new webpack.DefinePlugin({
-            "process.env": {
-                NODE_ENV: JSON.stringify(env)
-            }
-        }),
+        // new webpack.DefinePlugin({
+        //     "process.env": {
+        //         NODE_ENV: JSON.stringify(env)
+        //     }
+        // }),
     ],
     module: {
         rules: [

@@ -47,7 +47,7 @@
         label="密码"
         placeholder="请输入密码"
         :rules="[
-          {
+          { 
             required: true,
             message: '请输入密码',
           },
@@ -98,7 +98,7 @@ export default {
   background-color: #fff;
 }
 .top-bg {
-  height: 222px;
+  min-height: 222px;
   img {
     width: 100%;
     height: auto;

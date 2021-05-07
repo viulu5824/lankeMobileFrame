@@ -4,7 +4,7 @@ const htmlWebpackPlugin = require("html-webpack-plugin");
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const copyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const env = process.env.NODE_ENV;
+console.log(process.env,process.env.npm_lifecycle_event)
 
 module.exports = {
     entry: {
@@ -22,7 +22,7 @@ module.exports = {
             template: path.join(__dirname, "../src/index.html"),
             filename: "index.html",
             minify: {
-                collapseWhitespace: env != "development"
+                collapseWhitespace: true
             }
             // favicon: './favicon.ico'
         }),
@@ -134,5 +134,9 @@ module.exports = {
         extensions: [".js", ".jsx", ".json"],
         modules: ["node_modules"]
     },
-    target: "web"
+    stats: {
+        children: true,
+        errorDetails:true
+    },
+    target: "browserslist"
 }
