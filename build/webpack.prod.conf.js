@@ -7,7 +7,6 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const CleanWebpackPlugin = require("clean-webpack-plugin");
-const env = process.env.NODE_ENV;
 /**
  * 
  * @param {Object} env 
@@ -27,11 +26,11 @@ module.exports = (env) => {
             new MiniCssExtractPlugin({
                 filename: "css/[name].[contenthash:8].css"
             }),
-            // new webpack.DefinePlugin({
-            //     "process.env": {
-            //         NODE_ENV: JSON.stringify(env)
-            //     }
-            // }),
+            new webpack.DefinePlugin({
+                "process.env": {
+                    NODE_ENV: JSON.stringify(env.server)
+                }
+            }),
             new CompressionWebpackPlugin({
                 algorithm: 'gzip',
                 test: new RegExp('\\.(js|css)$'),
@@ -75,7 +74,9 @@ module.exports = (env) => {
                         }
                     },
                 }),
-                new CssMinimizerPlugin({})
+                new CssMinimizerPlugin({
+                    parallel: true
+                })
             ],
             minimize: true,
         },

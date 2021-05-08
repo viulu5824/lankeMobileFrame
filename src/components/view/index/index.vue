@@ -1,5 +1,7 @@
 <template>
-  <div class="index">首页</div>
+  <div class="index">首页
+    <p><router-link :to="{name:'login'}">去登陆</router-link></p>
+  </div>
 </template>
 
 <script>

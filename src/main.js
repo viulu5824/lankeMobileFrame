@@ -1,5 +1,7 @@
+//polyfill
 import "core-js/stable";
 import "regenerator-runtime/runtime";
+
 //设置rem适配区间 viewport :[320,768]
 window.addEventListener("DOMContentLoaded", () => {
     const docEl = document.documentElement;
@@ -10,9 +12,10 @@ window.addEventListener("DOMContentLoaded", () => {
         docEl.style.fontSize = "76.8px";
     }
 })
+
 //Vue
 import Vue from "vue";
-
+        
 //Scripts
 import "mount";
 import "request";
@@ -31,9 +34,9 @@ import "./style/main/else-reset.less";
 
 //Else
 if (process.env.NODE_ENV === "test") {
-    Promise.resolve().then(() => {
-        const VConsole = require("vconsole");
-        const vc = new VConsole();
+    import(/* webpackChunkName: 'vconsole' */ 'vconsole').then((VConsole) => {
+        console.log(VConsole);
+        const vc = new VConsole.default();
         let first = true;
         Object.defineProperty(window, "cc", {
             get() {
@@ -45,7 +48,7 @@ if (process.env.NODE_ENV === "test") {
 
             }
         })
-    })
+    }).catch(err => console.error(err))
 }
 
 //RootComponent 

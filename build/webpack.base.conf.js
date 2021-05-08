@@ -4,7 +4,7 @@ const htmlWebpackPlugin = require("html-webpack-plugin");
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const copyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-console.log(process.env,process.env.npm_lifecycle_event)
+const isDev = process.env.npm_lifecycle_event.indexOf("dev") >= 0;
 
 module.exports = {
     entry: {
@@ -42,7 +42,7 @@ module.exports = {
 
             {
                 test: /\.(le|c)ss$/,
-                use: [env === "development" ? "style-loader" : {
+                use: [isDev ? "style-loader" : {
                     loader: MiniCssExtractPlugin.loader,
                     options: {
                         publicPath: "../"
@@ -134,9 +134,5 @@ module.exports = {
         extensions: [".js", ".jsx", ".json"],
         modules: ["node_modules"]
     },
-    stats: {
-        children: true,
-        errorDetails:true
-    },
-    target: "browserslist"
+    target: "browserslist",
 }
