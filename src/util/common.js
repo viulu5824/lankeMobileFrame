@@ -281,7 +281,7 @@ export function selectChange(
     target[targetNameField] = item ? item[listNameField] : null;
 }
 /**
- * @description 身份证转大写
+ * @description 身份证 X 转大写
  */
 export function upperIdcard(e) {
     if ((e || "").trim()) {

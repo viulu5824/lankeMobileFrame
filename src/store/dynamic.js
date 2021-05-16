@@ -10,7 +10,7 @@ export default {
     currentRoute: {},
     //是否获取到微信签名
     isGetWxSign: false,
-    //BOM信息
+    //常用BOM
     href: location.href.split("#")[0],
     ua: navigator.userAgent,
     referrer: document.referrer || "",

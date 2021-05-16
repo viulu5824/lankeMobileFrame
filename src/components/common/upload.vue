@@ -2,10 +2,10 @@
 <!--文件列表[item只返回base64|URL格式，便于返显图片]-->
 <template>
   <div
-    :class="[fileType, { flex: col > 1 }, { center: isCenter }]"
+    :class="[fileType, { flex: col > 1 }, { center: center }]"
     class="upload clearfix"
   >
-    <div v-if="isCropper" v-show="cropperShow" class="cropper-block">
+    <div v-if="cropper" v-show="cropperShow" class="cropper-block">
       <div class="cropper-container">
         <vueCropper
           v-if="fileData"
@@ -70,7 +70,7 @@
             width="100%"
             height="100%"
             :src="
-              isRealTimeUpload && fileCodingType != 'base64'
+              realTimeUpload && uploadFileType != 'base64'
                 ? (preImgUrl || projectImgPrefixUrl) + item
                 : item
             "
@@ -128,17 +128,17 @@ Vue.use(VueCropper);
 
 export default {
   props: {
-    //居中展示
-    isCenter: {
+    //图片展示方式  cover|contain|auto
+    fit: {
+      type: String,
+      default: "contain",
+    },
+    //是否居中展示
+    center: {
       type: Boolean,
       default: false,
     },
-    //是否开启多张
-    multiple: {
-      type: Boolean,
-      default: false,
-    },
-    //几张占一行
+    //一行几张
     col: {
       type: Number,
       default: 1,
@@ -148,17 +148,7 @@ export default {
       type: Boolean,
       default: false,
     },
-    //限制文件类型
-    fileType: {
-      type: String,
-      default: "image", //all
-    },
-    //图片展示方式
-    fit: {
-      type: String,
-      default: "contain",
-    },
-    //文件列表[item只返回base64|URL格式，便于返显图片]
+    //上传的文件数据[item只返回base64|URL格式，便于返显图片]
     fileList: {
       type: Array,
       default() {
@@ -170,33 +160,43 @@ export default {
       type: Number,
       default: 1,
     },
-    //是否实时上传
-    isRealTimeUpload: {
-      type: Boolean,
-      default: false,
-    },
     //拼接图片地址
     preImgUrl: {
       type: String,
       default: "",
-    },
-    //实时上传接口地址
-    uploadUrl: {
-      type: String,
-      default: "smart-city/file/upload",
     },
     //实时删除接口地址
     delUrl: {
       type: String,
       default: "smart-city/file/delFile",
     },
-    //文件上传编码类型 fileObj|base64
-    fileCodingType: {
+    //上传的文件类型
+    fileType: {
+      type: String,
+      default: "image", //all
+    },
+    //文件上传格式 fileObj|base64（仅图片支持）
+    uploadFileFormat: {
       type: String,
       default: "fileObj",
     },
+    //是否实时上传
+    realTimeUpload: {
+      type: Boolean,
+      default: false,
+    },
+    //实时上传接口地址
+    uploadUrl: {
+      type: String,
+      default: "smart-city/file/upload",
+    },
     //是否裁剪
-    isCropper: {
+    cropper: {
+      type: Boolean,
+      default: false,
+    },
+    //是否开启多张
+    multiple: {
       type: Boolean,
       default: false,
     },
@@ -214,7 +214,7 @@ export default {
     };
   },
   methods: {
-    //上传图片
+    //上传文件
     uploadFile() {
       if (isWX && this.isGetWxSign && this.fileType === "image") {
         this.wxUploadImg();
@@ -224,9 +224,7 @@ export default {
     },
     //原生上传控件监听
     uploadInputChange() {
-      const vm = this;
       const inputFile = this.$refs.uploadRef.files[0];
-      console.log(inputFile);
       if (!inputFile) {
         return;
       }
@@ -236,7 +234,7 @@ export default {
         !/image\/(jpg|jpeg|bmp|png)$/.test(inputFile.type)
       ) {
         this.$refs.uploadRef.value = null;
-        return this.$toast("上传文件格式不正确");
+        return this.$toast("文件格式不正确");
       }
       this.saveFile(inputFile);
     },
@@ -244,11 +242,10 @@ export default {
     wxUploadImg() {
       const vm = this;
       wx.chooseImage({
-        count: 1, //vm.maxCount - vm.fileList.length,
+        count: 1,
         sizeType: ["compressed"],
         sourceType: ["album", "camera"],
         success(res) {
-          console.log(res.localIds);
           vm.wxGetLocalImg(res.localIds);
         },
       });
@@ -257,13 +254,13 @@ export default {
     wxGetLocalImg(localIds) {
       const vm = this;
       const localId = localIds.shift();
-      //异步方法 不能遍历 只能递归回调执行
+      //wx.getLocalImgData为异步方法,不可遍历执行，只能递归回调执行
       wx.getLocalImgData({
         localId,
         success(res) {
           console.log("getLocalImgData", res.localData.slice(0, 100));
           let localData = res.localData;
-          //判断是否有这样的头部
+          //替换base64头
           if (localData.indexOf("data:image") != 0) {
             localData = "data:image/jpg;base64," + localData;
           }
@@ -275,14 +272,14 @@ export default {
           }
         },
         fail(err) {
-          alert("显示失败");
+          console.log(err);
         },
       });
     },
     //转换文件格式
     transformFileType(fileData) {
       return new Promise((resolve, reject) => {
-        if (this.fileCodingType === "base64") {
+        if (this.uploadFileType === "base64") {
           file2DataUrl(fileData).then((res) => {
             resolve(res);
           });
@@ -295,10 +292,10 @@ export default {
     uploadOrSaveLocalFile(fileData) {
       this.transformFileType(fileData).then((fileData) => {
         //是否实时上传
-        if (this.isRealTimeUpload) {
+        if (this.realTimeUpload) {
           this.uploadToServer(fileData);
         } else {
-          if (this.fileCodingType === "fileObj") {
+          if (this.uploadFileType === "fileObj") {
             file2DataUrl(fileData).then((res) => {
               this.$emit("update:fileList", [...this.fileList, res]);
             });
@@ -311,13 +308,10 @@ export default {
     },
     //保存文件
     saveFile(fileData) {
-      console.log("准备保存文件", fileData);
       //是否需要裁剪
-      if (this.isCropper) {
-        return this.cropperImage(fileData);
-      } else {
-        this.uploadOrSaveLocalFile(fileData);
-      }
+      this.cropper
+        ? this.cropperImage(fileData)
+        : this.uploadOrSaveLocalFile(fileData);
     },
     //裁剪图片
     cropperImage(fileData) {
@@ -330,7 +324,7 @@ export default {
     },
     //删除已上传文件
     delFile(item, index) {
-      this.isRealTimeUpload
+      this.realTimeUpload
         ? this.delServerFile(item, index)
         : this.delLocalFile(index);
     },
@@ -339,6 +333,7 @@ export default {
       this.$refs.uploadRef.value = null;
       const delItem = this.fileList.splice(index, 1);
       this.$emit("update:fileList", this.fileList);
+      //父组件触发删除事件
       this.$emit("delete", delItem, index);
     },
     //删除服务器文件
@@ -418,7 +413,7 @@ export default {
   computed: {
     ...mapState(["isGetWxSign"]),
     previewImgList() {
-      if (this.fileCodingType === "fileObj") {
+      if (this.uploadFileType === "fileObj") {
         return this.fileList.map((e) => this.projectImgPrefixUrl + e);
       } else {
         return this.fileList;

@@ -65,7 +65,7 @@ router.beforeEach((to, from, next) => {
     return next()
 });
 router.afterEach((to) => {
-    //切换路由修改HTML title
+    //切换路由修改HTML title标签
     if (to.meta.title) {
         document.title = to.meta.title
     }
