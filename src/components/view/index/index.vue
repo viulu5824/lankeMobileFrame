@@ -1,6 +1,6 @@
 <template>
   <div class="index">首页
-    <p><router-link :to="{name:'login'}">去登陆</router-link></p>
+    <p><router-link :to="{name:'login'}">去登录</router-link></p>
   </div>
 </template>
 

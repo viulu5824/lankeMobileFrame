@@ -7,6 +7,8 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const CleanWebpackPlugin = require("clean-webpack-plugin");
+const PreloadWebpackPlugin = require('@vue/preload-webpack-plugin');
+console.log(PreloadWebpackPlugin);
 /**
  * 
  * @param {Object} env 
@@ -22,6 +24,7 @@ module.exports = (env) => {
             pathinfo: false,
         },
         plugins: [
+            new webpack.AutomaticPrefetchPlugin(),
             new CleanWebpackPlugin.CleanWebpackPlugin(),
             new MiniCssExtractPlugin({
                 filename: "css/[name].[contenthash:8].css"
@@ -37,7 +40,22 @@ module.exports = (env) => {
                 threshold: 10240,
                 minRatio: 0.8
             }),
-
+            new PreloadWebpackPlugin(
+                {
+                    rel: 'preload',
+                    include: 'initial',
+                    fileBlacklist: [
+                        /\.map$/,
+                        /hot-update\.js$/
+                    ]
+                }
+            ),
+            new PreloadWebpackPlugin(
+                {
+                    rel: 'prefetch',
+                    include: 'asyncChunks'
+                }
+            ),
         ],
         module: {
             rules: [
@@ -62,7 +80,6 @@ module.exports = (env) => {
             minimize: true,
             minimizer: [
                 new TerserPlugin({
-                    cache:true,
                     extractComments: false,
                     parallel: true,
                     terserOptions: {

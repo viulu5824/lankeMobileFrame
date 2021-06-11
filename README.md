@@ -3,8 +3,6 @@
 ## 待解决问题和需求
 
 1. 上传压缩图片，限制大小
-2. 省级联动抽取组件
-3. store/static.js中不能直接require图片，会被打包至入口文件
 
 ## 项目介绍
 
@@ -46,7 +44,7 @@ spa基础框架:vue2|vueRouter|vuex
 3. [lodash](https://www.lodashjs.com/docs/latest)
 
     + lodash是javascript高效函数库
-    + 项目中引入的是lodash-es，引用方式采用ESM引用方式，能够应用webpack的Tree shaking优化代码体积，按需加载方法
+    + 项目中引入的是lodash-es，引用方式采用ESM引用方式，能够应用webpack的Tree-shaking优化代码体积，按需加载方法
     + 使用方法
 
     ```javascript

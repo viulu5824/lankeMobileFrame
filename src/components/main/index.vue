@@ -12,9 +12,7 @@ export default {
   },
   methods: {
     //获取用户信息
-    getUserInfo() {
-        
-    },
+    getUserInfo() {},
   },
   components: {},
   computed: {
